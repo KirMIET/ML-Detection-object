@@ -14,7 +14,12 @@ data.yaml
 # model
 yolo26n.pt
 
+# .zip
+test_images.zip
+dataset.zip
+
 # other file
 /sample_sub.csv
+ruslan_sub/
 
 
