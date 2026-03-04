@@ -4,15 +4,17 @@ __pycache__/
 # data
 test_images/
 dataset/
+yolo_dataset/
 
 # src
-/split_data.py
 
 # .yaml
 data.yaml
 
+# model
+yolo26n.pt
+
 # other file
 /sample_sub.csv
-
 
 
