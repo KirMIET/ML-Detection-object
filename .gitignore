@@ -12,9 +12,9 @@ yolo_dataset/
 data.yaml
 
 # model
-yolo26n.pt
+*.pt
 
 # other file
-/sample_sub.csv
+*.csv
 
-
+runs/
