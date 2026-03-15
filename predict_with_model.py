@@ -15,7 +15,7 @@ OUTPUT_BASE_DIR = "predictions"          # Главная папка для ре
 # ВАЖНО: Для Faster R-CNN число классов = (ваши реальные классы + 1 для фона)
 # Если у вас 5 классов объектов, ставьте NUM_CLASSES = 6
 NUM_CLASSES = 2
-CONF_THRESHOLD = 0.25 # Порог уверенности (сохраняем боксы с conf > 0.25)
+CONF_THRESHOLD = 0.2 # Порог уверенности (сохраняем боксы с conf > 0.25)
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

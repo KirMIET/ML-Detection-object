@@ -21,4 +21,8 @@ data.yaml
 *.csv
 
 runs/
+
+CHANGES.txt
+
 predictions/
+predictions_*/
