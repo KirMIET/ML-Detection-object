@@ -1,4 +1,3 @@
-import os
 import shutil
 import random
 from pathlib import Path
@@ -6,15 +5,13 @@ from collections import defaultdict
 from tqdm import tqdm
 import yaml
 
-# НАСТРОЙКИ
-SOURCE_IMAGES_DIR = Path(r"yolo_dataset/yolo_dataset/train/images")
-SOURCE_LABELS_DIR = Path(r"yolo_dataset/yolo_dataset/train/labels")
 
-DEST_DIR = Path(r"dataset")
+SOURCE_IMAGES_DIR = Path(r"yolo_dataset_2/add_images")
+SOURCE_LABELS_DIR = Path(r"yolo_dataset_2/add_labels")
 
-# Пропорция 
+DEST_DIR = Path(r"dataset_add")
+
 TRAIN_RATIO = 0.8
-# Список расширений картинок
 IMG_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.bmp'}
 
 
@@ -23,30 +20,24 @@ def main():
         print(f"Ошибка: Не найдены исходные папки:\n{SOURCE_IMAGES_DIR}\n{SOURCE_LABELS_DIR}")
         return
 
-    # структура папок назначения
     for split in ['train', 'val']:
         (DEST_DIR / 'images' / split).mkdir(parents=True, exist_ok=True)
         (DEST_DIR / 'labels' / split).mkdir(parents=True, exist_ok=True)
 
-    # 3. Собираем список всех изображений
     print("Сканирование файлов...")
     all_images = [
         p for p in SOURCE_IMAGES_DIR.iterdir() 
         if p.suffix.lower() in IMG_EXTENSIONS
     ]
 
-    # Группируем файлы по ID магазина
-    # ID магазина — это часть имени до первого символа "_"
-    # 0209-2_00864200 -> ID магазина "0209-2"
     shop_groups = defaultdict(list)
     
     for img_path in all_images:
         stem = img_path.stem
-        # Получаем ID магазина (все до первого подчеркивания)
         try:
             shop_id = stem.split('_')[0]
         except IndexError:
-            shop_id = "unknown" # На случай если имя файла другого формата
+            shop_id = "unknown" 
             
         shop_groups[shop_id].append(img_path)
 
@@ -58,25 +49,20 @@ def main():
     val_imgs = []
 
     for shop_id, images in shop_groups.items():
-        # Перемешиваем внутри магазина
         random.shuffle(images)
         
-        # Считаем индекс разделения
         count = len(images)
         split_idx = int(count * TRAIN_RATIO)
         
-        # Если в магазине всего 1 фото
         if count == 1:
             split_idx = 1
         
-        # Добавляем в общие списки
         train_imgs.extend(images[:split_idx])
         val_imgs.extend(images[split_idx:])
 
     print(f"Итого в Train: {len(train_imgs)}")
     print(f"Итого в Val:   {len(val_imgs)}")
 
-    # копируем
     def copy_files(image_list, split_name):
         print(f"Копирование {split_name}...")
         for img_path in tqdm(image_list):
@@ -91,26 +77,22 @@ def main():
             # Копируем картинку
             shutil.copy2(img_path, dst_img)
             
-            # Копируем лейбл, если он есть
+
             if src_label.exists():
                 shutil.copy2(src_label, dst_label)
             else:
-                # Если лейбла нет, это не страшно для background images (без объектов),
-                # но предупредим, если их много.
                 pass 
 
-    # 7. Запускаем копирование
     copy_files(train_imgs, 'train')
     copy_files(val_imgs, 'val')
 
-    # 8. Создаем data.yaml
-    # ВАЖНО: Проверь количество классов (nc) и имена (names) под свою задачу!
+
     yaml_content = {
-        'path': str(DEST_DIR.absolute()), # Абсолютный путь, чтобы локально работало сразу
+        'path': str(DEST_DIR.absolute()), 
         'train': 'images/train',
         'val': 'images/val',
-        'nc': 2, # У тебя 2 класса: сотрудник и покупатель
-        'names': ['customer', 'employee'] # ПРОВЕРЬ ПОРЯДОК: 0 - первый, 1 - второй!
+        'nc': 2, 
+        'names': ['customer', 'employee'] 
     }
 
     yaml_path = DEST_DIR / 'data.yaml'
