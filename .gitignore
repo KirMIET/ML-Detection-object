@@ -1,10 +1,13 @@
 __pycache__/
 .venv
-
+.vscode 
 # data
 test_images/
 dataset/
+dataset_sliced/
 yolo_dataset/
+dataset_*/
+kfold_splits_equal/
 
 # src
 
@@ -13,7 +16,7 @@ data.yaml
 
 # model
 yolo26n.pt
-
+*.pt
 # .zip
 test_images.zip
 dataset.zip
@@ -22,4 +25,17 @@ dataset.zip
 /sample_sub.csv
 ruslan_sub/
 
+runs/
 
+CHANGES.txt
+
+predictions/
+predictions_*/
+augmented_datasets/
+
+add_data/
+add_data_folds/
+predictions*/
+visualization_output/
+best*.txt
+CHANGES.txt
