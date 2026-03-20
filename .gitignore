@@ -1,6 +1,6 @@
 __pycache__/
 .venv
-.vscode/
+.vscode 
 # data
 test_images/
 dataset/
