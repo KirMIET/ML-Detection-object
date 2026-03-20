@@ -1,6 +1,6 @@
 __pycache__/
 .venv
-.vscode/
+.vscode
 # data
 test_images/
 dataset/
@@ -26,3 +26,11 @@ CHANGES.txt
 
 predictions/
 predictions_*/
+augmented_datasets/
+
+add_data/
+add_data_folds/
+predictions*/
+visualization_output/
+best*.txt
+CHANGES.txt
