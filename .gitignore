@@ -17,12 +17,18 @@ data.yaml
 # model
 yolo26n.pt
 *.pt
+classification_dataset/
+dataset_SAHI/
+
 # .zip
 test_images.zip
 dataset.zip
+classification_dataset.zip
+dataset_SAHI.zip
 
 # other file
 /sample_sub.csv
+my_experement.md
 ruslan_sub/
 
 runs/
